@@ -1,0 +1,8 @@
+
+requests
+typing_extensions
+pydantic
+fastapi[all]
+sqlmodel>=0.0.8
+#uvicorn[standard]
+odmantic
