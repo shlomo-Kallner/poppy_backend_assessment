@@ -5,7 +5,7 @@ from sqlmodel import SQLModel, Field, Relationship
 
 if TYPE_CHECKING:
     # from poppy_s.lib.models.doctors import Doctor
-    from poppy_s.lib.models.prescriptions import Prescription
+    from poppy_s.lib.models.prescriptions import Prescription, PrescriptionRead
 
 class PatientBase(SQLModel):
     name: str = Field(index=True, unique=True, min_length=1)
