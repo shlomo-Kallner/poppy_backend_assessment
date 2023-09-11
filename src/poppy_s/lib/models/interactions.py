@@ -28,5 +28,9 @@ class InteractionRead(InteractionBase):
     id: int
 
 
+class InteractionCreate(InteractionBase):
+    pass
+
+
 class InteractionReadWithMedications(InteractionRead):
     medications : list["MedicationBase"] = []

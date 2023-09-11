@@ -13,8 +13,9 @@ if TYPE_CHECKING:
     from poppy_s.lib.models.interactions import Interaction
 
 class MedicationBase(SQLModel):
-    name: str = Field(index=True, unique=True, min_length=1)
-    rxcuis: int = Field(index=True, unique=True, gt=0
+    # name: str = Field(index=True, unique=True, min_length=1)
+    name: str = Field(min_length=1)
+    rxcui: int = Field(index=True, unique=True, gt=0
         # , alias="RXCUIS"
     )
     description: str

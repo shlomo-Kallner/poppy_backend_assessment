@@ -81,14 +81,35 @@ def search_medication_by_name(name: str) -> list[MedicationCreate]:
 
         ex_zipped = tuple(zip(*extras.values()))
 
-        for name, display, extra in zip(
-            rj[1], rj[3], ex_zipped, 
+        for name, extra in zip(
+            rj[1], ex_zipped, 
         ):
-            print(f"{name=}\n{display=}\n{extra=}\n\n")
-            
-            nMed = 
+            # print(f"{name=}\n{extra=}\n\n")
 
+            nx_extra = { t[0]: [ (t[0], n) for n in t[1] ] for t in extra }
 
-            pass
+            # print(f"{nx_extra=}\n\n")
+
+            nz_extras = [ dict(t) for t in zip(*nx_extra.values()) ]
+
+            # print(f"{nz_extras=}\n\n")
+
+            tmp = [
+                {
+                    "name": name,
+                    **extra_data
+                } for extra_data in nz_extras
+            ]
+
+            for item in tmp:
+                # print(f"{item=}\n\n\n\n")
+                            
+                nMed = MedicationCreate(
+                    name=item["name"],
+                    rxcui=item["RXCUIS"],
+                    description=f"{item['name']} => {item['STRENGTHS_AND_FORMS']}"
+                )
+                
+                res.append(nMed)
 
     return res
