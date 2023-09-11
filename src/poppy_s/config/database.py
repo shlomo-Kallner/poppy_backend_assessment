@@ -1,8 +1,7 @@
 #!/bin/env python3
 
 from typing import Union, Literal
-from sqlmodel import SQLModel, Field, create_engine
-from pydantic import BaseSettings, PostgresDsn
+from pydantic import BaseModel, PostgresDsn
 from pydantic.networks import MultiHostDsn
 
 
@@ -14,7 +13,7 @@ class SQLiteDsn(MultiHostDsn):
     host_required = False
 
 
-class DatabaseSettings(BaseSettings):
-    db : Union[PostgresDsn, SQLiteDsn, Literal['sqlite://']] = 'sqlite://' # noqa
-    create_tables : bool = True
+class DatabaseSettings(BaseModel):
+    DB_URL : Union[PostgresDsn, SQLiteDsn, Literal['sqlite://']] = 'sqlite://'
+    # create_tables : bool = True
 

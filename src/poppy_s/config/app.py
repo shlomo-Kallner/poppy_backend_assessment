@@ -1,11 +1,12 @@
 #!/bin/env python3
 
 from typing import Union, Literal
-from pydantic import BaseSettings
+from pydantic import BaseSettings, Field, BaseModel
 from pydantic.networks import AnyHttpUrl
 
+from poppy_s.__version__ import NAME
 
-class AppSettings(BaseSettings):
-    debug: bool = False
-    allow_origins: list[Union[AnyHttpUrl, Literal["*"], Literal["localhost"]]] = ["*", "localhost"]
+class AppSettings(BaseModel):
+    DEBUG: bool = False
+    ALLOWED_ORIGINS: list[Union[AnyHttpUrl, Literal["*"], Literal["localhost"]]] = ["*", "localhost"]
 

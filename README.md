@@ -2,7 +2,7 @@
 
 ## Introducing "Poppy's"
 
-**Golden Circle** (by **Kingsman, Tailor & Statesman LLC**  [incorporation pending]) are proud to present:
+**Golden Circle** (by **Kingsman, Taylor & Statesman LeCurie LLC**  [incorporation pending]) are proud to present:
 
 Poppy's!  "Saving Lives - Legalize!"
 
