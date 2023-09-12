@@ -48,7 +48,11 @@ plugins = getPlugins()
 app = getApp(configuration, plugins)
 
 
-if __name__ == "__main__":
+def run_main():
     from uvicorn import run
 
     run(app=app)
+
+
+if __name__ == "__main__":
+    run_main()
