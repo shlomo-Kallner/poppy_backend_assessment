@@ -1,12 +1,12 @@
 #!/bin/env python3
 
-from sqlmodel import Session, select, col #, SQLModel
+from sqlmodel import Session, select, col #, exists, SQLModel
 
 from poppy_s.lib.models import MedicationCreate, Medication
 from poppy_s.lib.container import globalContainer
 
 
-def find_medication_by_name(name: str, session: Session, loadMore: bool = False) -> list[Medication]:
+def find_medication_by_name(session: Session, name: str, num: int = 100, loadMore: bool = False) -> list[Medication]:
 
     res : list[Medication] = []
 
@@ -19,13 +19,43 @@ def find_medication_by_name(name: str, session: Session, loadMore: bool = False)
 
     db_results = session.exec(db_stmt).all()
 
+    res.extend(db_results)
+
     if len(db_results) == 0 or loadMore:
 
-        if globalContainer.plugins is not None:
-            fetch_results = globalContainer.plugins.hook.search_medication_by_name(
-                name=name
-            )
+        # then check the API
 
+        if globalContainer.plugins is None:
+            raise RuntimeError("the plugins have not been loaded and stored in the globalContainer!")
 
+        fetch_results : list[MedicationCreate] = globalContainer.plugins.hook.search_medication_by_name(
+            name=name, num=num
+        )
+
+        for fr in fetch_results:
+            if (
+                any( 
+                    ( 
+                        r.rxcui == fr.rxcui 
+                        # and r.name == fr.name and r.description == fr.description
+                        for r in res 
+                    ) 
+                ) or len(
+                    session.exec(
+                        select(Medication).where(
+                            Medication.rxcui == fr.rxcui
+                        )
+                    ).all()
+                ) > 0
+            ):
+                # already exists, ignore
+                pass
+                
+            tres = Medication.from_orm(fr)
+            session.add(tres)
+            session.commit()
+            session.refresh(tres)
+
+            res.append(tres)
 
     return res

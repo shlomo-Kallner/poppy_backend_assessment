@@ -5,7 +5,7 @@ from poppy_s.lib.plugins.specs import PluginSpec
 from poppy_s.lib.models import MedicationCreate
 
 @PluginSpec
-def search_medication_by_name(name: str) -> list[MedicationCreate]:
+def search_medication_by_name(name: str, num: int) -> list[MedicationCreate]:
     """
         search_medication_by_name 
         

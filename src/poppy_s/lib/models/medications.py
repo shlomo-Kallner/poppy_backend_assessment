@@ -2,7 +2,7 @@
 
 from typing import Optional, TYPE_CHECKING
 # from pydantic import conint
-from sqlmodel import SQLModel, Field #, Relationship
+from sqlmodel import SQLModel, Field, Relationship
 
 from poppy_s.lib.models.interactionsMedicationLink import InteractionMedicationLink
 # from poppy_s.lib.models.prescriptionsMedicationLink import PrescriptionMedicationLink
@@ -24,11 +24,13 @@ class MedicationBase(SQLModel):
 class Medication(MedicationBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
 
-    # TODO: re-evaluate why/if this should be here!!
-    # interactions : list["Interaction"] = Relationship(
-    #     back_populates="medications", 
-    #     link_model=InteractionMedicationLink
-    # )
+    ## Query: re-evaluate why/if this should be here!!
+    ## Answer: We need them for the 
+
+    interactions : list["Interaction"] = Relationship(
+        back_populates="medications", 
+        link_model=InteractionMedicationLink
+    )
 
 
 class MedicationRead(MedicationBase):

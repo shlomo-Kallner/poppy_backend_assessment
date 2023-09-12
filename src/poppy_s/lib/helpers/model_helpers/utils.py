@@ -34,7 +34,7 @@ def flatten_model_list(models: Sequence[SQLModel] | Sequence[Sequence[_T_SQLMode
                             # recurse!!!
                             res.extend(
                                 flatten_model_list(
-                                    models=nrv,
+                                    models=nrv, # type: ignore
                                     model_type=model_type
                                 )
                             )

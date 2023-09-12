@@ -9,7 +9,7 @@ from requests import Session
 
 
 @PluginImpl(wrapper=True, specname="search_medication_by_name")
-def search_medication_by_name_base_wrapper(name: str) -> Generator[None, list[list[MedicationCreate]], list[MedicationCreate]]:
+def search_medication_by_name_base_wrapper(name: str, num: int) -> Generator[None, list[list[MedicationCreate]], list[MedicationCreate]]:
     """
         search_medication_by_name_base_wrapper
         A wrapper to flatten the retunred list of Models.
@@ -50,7 +50,7 @@ def search_medication_by_name_base_wrapper(name: str) -> Generator[None, list[li
     return res
 
 @PluginImpl
-def search_medication_by_name(name: str) -> list[MedicationCreate]:
+def search_medication_by_name(name: str, num: int = 100) -> list[MedicationCreate]:
     """
         search_medication_by_name 
         
@@ -72,6 +72,7 @@ def search_medication_by_name(name: str) -> list[MedicationCreate]:
     with Session() as s:
         params = {
             "terms": name,
+            "maxList": num,
             # "df": "DISPLAY_NAME,DISPLAY_NAME_SYNONYM",
             "df": "DISPLAY_NAME_SYNONYM",
             # "ef": "STRENGTHS_AND_FORMS,RXCUIS,SXDG_RXCUI"
