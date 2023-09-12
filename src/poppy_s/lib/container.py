@@ -1,8 +1,9 @@
 #!/bin/env python3
 
 # from contextlib import contextmanager
-from typing import Generator
+# from typing import Generator
 from pluggy import PluginManager
+from fastapi import FastAPI
 
 
 
@@ -12,6 +13,7 @@ class GeneralCOntainer:
     def __init__(self) -> None:
         self._config : Configuration | None = None
         self._plugins : PluginManager | None = None
+        self._app : FastAPI | None = None
 
 
     @property
@@ -30,6 +32,15 @@ class GeneralCOntainer:
     @plugins.setter
     def plugins(self, plugins : PluginManager | None):
         self._plugins = plugins
+
+
+    @property
+    def app(self) -> FastAPI | None:
+        return self._app
+
+    @app.setter
+    def app(self, app : FastAPI | None):
+        self._app = app
 
 
 globalContainer = GeneralCOntainer()

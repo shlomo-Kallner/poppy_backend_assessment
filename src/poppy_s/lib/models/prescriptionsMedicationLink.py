@@ -20,6 +20,13 @@ class PrescriptionMedicationLink(SQLModel, table=True):
         foreign_key="prescription.id", 
         primary_key=True
     )
+    # is_pending : bool = Field(default=True)
+    pending_id : Optional[int] = Field(
+        default=None
+        # , 
+        # foreign_key="prescription.id", 
+        # primary_key=True
+    )
 
 
 # class InteractionsMedicationLink(InteractionMedicationLinkBase):

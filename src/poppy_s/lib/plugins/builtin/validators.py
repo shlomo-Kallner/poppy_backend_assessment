@@ -1,5 +1,6 @@
 #!/bin/env python3
 
+
 from typing import Generator
 # from urllib.parse import quote_plus
 from datetime import datetime, timezone
@@ -8,6 +9,7 @@ from warnings import warn
 from requests import Session
 
 from poppy_s.lib.plugins import PluginImpl
+from poppy_s.lib.helpers.model_helpers.utils import flatten_model_list
 from poppy_s.lib.models import Medication
 from poppy_s.lib.models import InteractionCreate
 
@@ -37,14 +39,19 @@ def search_medication_interactions_by_rxcui_results_flattener_wrapper(
             _description_
     """     
 
-    res : list[InteractionCreate] = []
+    # res : list[InteractionCreate] = []
 
     tmp : list[list[InteractionCreate]] = yield
 
-    for result in tmp:
-        res.extend( 
-            ( InteractionCreate.from_orm(rv) if not isinstance(rv, InteractionCreate) else rv for rv in result ) 
-        )
+    # for result in tmp:
+    #     res.extend( 
+    #         ( InteractionCreate.from_orm(rv) if not isinstance(rv, InteractionCreate) else rv for rv in result ) 
+    #     )
+
+    res : list[InteractionCreate] = flatten_model_list(
+        models=tmp,
+        model_type=InteractionCreate
+    )
 
     return res
 

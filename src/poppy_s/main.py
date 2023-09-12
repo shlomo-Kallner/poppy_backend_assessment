@@ -36,6 +36,7 @@ def getApp(config: Configuration, plugins: PluginManager) -> FastAPI:
 
     globalContainer.config = config
     globalContainer.plugins = plugins
+    globalContainer.app = app
 
 
     return app

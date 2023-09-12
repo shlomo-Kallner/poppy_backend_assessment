@@ -3,6 +3,7 @@
 
 from poppy_s.lib.plugins import PluginImpl
 from poppy_s.lib.models import MedicationCreate
+from poppy_s.lib.helpers.model_helpers.utils import flatten_model_list
 from typing import Generator
 from requests import Session
 
@@ -32,14 +33,19 @@ def search_medication_by_name_base_wrapper(name: str) -> Generator[None, list[li
             the List of Medication Details
     """    
 
-    res : list[MedicationCreate] = []
+    # res : list[MedicationCreate] = []
 
     tmp : list[list[MedicationCreate]] = yield
 
-    for result in tmp:
-        res.extend( 
-            ( MedicationCreate.from_orm(rv) if not isinstance(rv, MedicationCreate) else rv for rv in result ) 
-        )
+    # for result in tmp:
+    #     res.extend( 
+    #         ( MedicationCreate.from_orm(rv) if not isinstance(rv, MedicationCreate) else rv for rv in result ) 
+    #     )
+
+    res : list[MedicationCreate] = flatten_model_list(
+        models=tmp,
+        model_type=MedicationCreate
+    )
 
     return res
 
