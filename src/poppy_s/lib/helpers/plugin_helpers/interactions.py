@@ -152,13 +152,15 @@ def find_interactions_by_rxcui(session: Session, medications: list[Medication], 
                 # already exists, ignore
                 pass
                 
-            tres = Interaction(warning=fr.warning)
+            # tres = Interaction(warning=fr.warning)
+            tres = Interaction.from_orm(fr)
 
             session.add(tres)
             session.commit()
             session.refresh(tres)
             
             # TODO: Cache the unused RXCUIs for future requests!!
+            ## for now they are stored on the Interaction Object.
             # unused_rxcui = []
 
             for rxcui in fr.rxcuis:

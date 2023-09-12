@@ -1,6 +1,6 @@
 #!/bin/env python3
 
-from typing import List, Type, TypeVar
+from typing import List, Optional, Type, TypeVar
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session, select, SQLModel
@@ -16,7 +16,8 @@ def genRouter(
     model_name: str,
     model: Type[_T_SQLModel],
     response_model: Type[_T_SQLModel],
-    create_model: Type[_T_SQLModel],
+    response_model_full_data: Type[_T_SQLModel],
+    create_model: Optional[Type[_T_SQLModel]] = None,
 ) -> APIRouter:
 
     router = APIRouter(prefix=f"/{prefix_singular}", tags=["api", "api/v1", f"api/v1/{prefix_singular}", f"{prefix_plural}"])
@@ -31,18 +32,23 @@ def genRouter(
 
         items = session.exec(select(model).offset(offset).limit(limit)).all()
         return items
-        
-     
-    @router.post("/", response_model=response_model)
-    async def createItem(*, session: Session = Depends(database.get_session), item: create_model):
-        db_item = model.from_orm(item)
-        session.add(db_item)
-        session.commit()
-        session.refresh(db_item)
-        return db_item
+
+    if create_model is not None:
+
+        @router.post("/", response_model=response_model)
+        async def createItem(
+            *, 
+            session: Session = Depends(database.get_session), 
+            item: create_model # type: ignore
+        ):
+            db_item = model.from_orm(item)
+            session.add(db_item)
+            session.commit()
+            session.refresh(db_item)
+            return db_item
 
 
-    @router.get("/{item_id}", response_model=response_model)
+    @router.get("/{item_id}", response_model=response_model_full_data)
     async def getItem(*, session: Session = Depends(database.get_session), item_id: int):
         item = session.get(model, item_id)
         if not item:

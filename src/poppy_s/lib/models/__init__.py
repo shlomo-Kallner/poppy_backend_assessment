@@ -6,7 +6,13 @@ from poppy_s.lib.models.interactions import Interaction, InteractionRead, Intera
 from poppy_s.lib.models.medications import Medication, MedicationRead, MedicationCreate
 from poppy_s.lib.models.patients import Patient, PatientRead, PatientCreate
 from poppy_s.lib.models.prescriptions import Prescription, PrescriptionRead, PrescriptionReadFullData, PrescriptionCreate
-from poppy_s.lib.models.prescriptionsMedicationDosage import PrescriptionsMedicationDosage, PrescriptionsMedicationDosageRead
+from poppy_s.lib.models.prescriptionsMedicationDosage import (
+    PrescriptionsMedicationDosage, 
+    PrescriptionsMedicationDosageRead,
+    PrescriptionsMedicationDosageCreate,
+    PrescriptionsMedicationDosageBaseWithMedicationID,
+    PrescriptionsMedicationDosageReadFull
+)
 from poppy_s.lib.models.interactionsMedicationLink import InteractionMedicationLink
 
 
@@ -30,5 +36,8 @@ __all__ = (
     "PrescriptionCreate",
     "PrescriptionReadFullData",
     "PrescriptionsMedicationDosage",
-    "PrescriptionsMedicationDosageRead"
+    "PrescriptionsMedicationDosageRead",
+    "PrescriptionsMedicationDosageCreate",
+    "PrescriptionsMedicationDosageReadFull",
+    "PrescriptionsMedicationDosageBaseWithMedicationID"
 )

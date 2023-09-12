@@ -5,7 +5,10 @@ from datetime import datetime
 from sqlmodel import SQLModel, Field, Relationship
 
 # from poppy_s.lib.models.prescriptionsMedicationLink import PrescriptionMedicationLink
-from poppy_s.lib.models.prescriptionsMedicationDosage import PrescriptionsMedicationDosage
+from poppy_s.lib.models.prescriptionsMedicationDosage import (
+    PrescriptionsMedicationDosage,
+    PrescriptionsMedicationDosageRead
+)
 
 if TYPE_CHECKING:
     from poppy_s.lib.models.doctors import Doctor, DoctorRead
@@ -21,17 +24,20 @@ class Prescription(PrescriptionBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     # created_at : datetime
     # modified_at : datetime
+    sealed_at : Optional[datetime] = None
     # deleted_at : Optional[datetime] = None
 
     dosages : list[PrescriptionsMedicationDosage] = Relationship(back_populates="prescriptions")
     medications : list["Medication"] = Relationship(link_model=PrescriptionsMedicationDosage)
-    doctor: Optional["Doctor"] = Relationship(back_populates="prescriptions")
-    patient : Optional["Patient"] = Relationship(back_populates="prescriptions")
+    doctor : "Doctor" = Relationship(back_populates="prescriptions")
+    patient : "Patient" = Relationship(back_populates="prescriptions")
+    warnings: list[str] = []
 
 class PrescriptionRead(PrescriptionBase):
     id: int
     # created_at : datetime
     # modified_at : datetime
+    sealed_at : Optional[datetime] = None
     # deleted_at : Optional[datetime] = None
 
 class PrescriptionCreate(PrescriptionBase):
@@ -39,5 +45,7 @@ class PrescriptionCreate(PrescriptionBase):
 
 class PrescriptionReadFullData(PrescriptionRead):
     medications: list["MedicationRead"] = []
-    doctor: Optional["DoctorRead"] = None
-    patient : Optional["PatientRead"] = None
+    dosages : list[PrescriptionsMedicationDosageRead] = []
+    doctor: "DoctorRead"
+    patient : "PatientRead"
+    warnings: list[str] = []

@@ -15,6 +15,7 @@ class InteractionBase(SQLModel):
     warning: str = Field(
         min_length=1 #, index=True, unique=True
     )
+    rxcuis: list[int]
 
 
 class Interaction(InteractionBase, table=True):
@@ -31,7 +32,8 @@ class InteractionRead(InteractionBase):
 
 
 class InteractionCreate(InteractionBase):
-    rxcuis: list[int]
+    # rxcuis: list[int]
+    pass
 
 
 class InteractionReadWithMedications(InteractionRead):
