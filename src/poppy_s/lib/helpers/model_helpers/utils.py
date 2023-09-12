@@ -1,6 +1,6 @@
 #!/bin/env python3
 
-from typing import Type, TypeVar, Sequence
+from typing import Type, TypeVar, Sequence #, Protocol, runtime_checkable
 from collections.abc import Sequence as SequenceABC
 from sqlmodel import SQLModel
 from itertools import chain
@@ -40,3 +40,6 @@ def flatten_model_list(models: Sequence[SQLModel] | Sequence[Sequence[_T_SQLMode
                             )
 
     return res
+
+
+
