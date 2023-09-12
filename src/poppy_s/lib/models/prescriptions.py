@@ -13,15 +13,15 @@ if TYPE_CHECKING:
     from poppy_s.lib.models.medications import Medication, MedicationRead
 
 class PrescriptionBase(SQLModel):
-    created_at : datetime
-    modified_at : datetime
-    deleted_at : Optional[datetime] = None
 
-    doctor_id : Optional[int] = Field(default=None, foreign_key="doctor.id")
-    patient_id : Optional[int] = Field(default=None, foreign_key="patient.id")
+    doctor_id : int = Field(default=None, foreign_key="doctor.id")
+    patient_id : int = Field(default=None, foreign_key="patient.id")
 
 class Prescription(PrescriptionBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
+    # created_at : datetime
+    # modified_at : datetime
+    # deleted_at : Optional[datetime] = None
 
     dosages : list[PrescriptionsMedicationDosage] = Relationship(back_populates="prescriptions")
     medications : list["Medication"] = Relationship(link_model=PrescriptionsMedicationDosage)
@@ -30,6 +30,12 @@ class Prescription(PrescriptionBase, table=True):
 
 class PrescriptionRead(PrescriptionBase):
     id: int
+    # created_at : datetime
+    # modified_at : datetime
+    # deleted_at : Optional[datetime] = None
+
+class PrescriptionCreate(PrescriptionBase):
+    pass
 
 class PrescriptionReadFullData(PrescriptionRead):
     medications: list["MedicationRead"] = []

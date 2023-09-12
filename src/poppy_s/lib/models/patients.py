@@ -18,3 +18,6 @@ class Patient(PatientBase, table=True):
 
 class PatientRead(PatientBase):
     id: int
+
+class PatientCreate(PatientBase):
+    pass

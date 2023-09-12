@@ -2,10 +2,11 @@
 
 from fastapi import APIRouter
 
+from poppy_s.api.v1 import getRouter as getRouterV1
 
 def getRouter() -> APIRouter:
     
-    from poppy_s.api.v1 import getRouter as getRouterV1
+    # from poppy_s.api.v1 import getRouter as getRouterV1
 
     router = APIRouter(prefix="/api", tags=["api"])
 
