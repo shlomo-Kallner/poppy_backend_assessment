@@ -12,7 +12,9 @@ if TYPE_CHECKING:
     from poppy_s.lib.models.medications import Medication, MedicationBase
 
 class InteractionBase(SQLModel):
-    warning: str = Field(index=True, unique=True, min_length=1)
+    warning: str = Field(
+        min_length=1 #, index=True, unique=True
+    )
 
 
 class Interaction(InteractionBase, table=True):
@@ -29,7 +31,7 @@ class InteractionRead(InteractionBase):
 
 
 class InteractionCreate(InteractionBase):
-    pass
+    rxcuis: list[int]
 
 
 class InteractionReadWithMedications(InteractionRead):

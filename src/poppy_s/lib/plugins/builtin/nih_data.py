@@ -37,7 +37,9 @@ def search_medication_by_name_base_wrapper(name: str) -> Generator[None, list[li
     tmp : list[list[MedicationCreate]] = yield
 
     for result in tmp:
-        res.extend(result)
+        res.extend( 
+            ( MedicationCreate.from_orm(rv) if not isinstance(rv, MedicationCreate) else rv for rv in result ) 
+        )
 
     return res
 
