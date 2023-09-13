@@ -1,3 +1,10 @@
 .venv 
 .venv/
 .venv/**
+src/poppy_s.egg-info
+src/poppy_s.egg-info/
+src/poppy_s.egg-info/**
+dist
+dist/
+dist/**
+
