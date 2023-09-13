@@ -25,7 +25,7 @@ a joint venture of the **Hauptman Cartel** and **Grayson (Blackbird) SkyDomes In
         python3 -m pip install -U -r ./requirements/requirements.txt
     ```
 
-- to run the notebooks install the dev
+- to be able to run the notebooks install the dev extra
 
     ```bash
         python3 -m pip install -U -r ./requirements/dev.txt
@@ -36,3 +36,16 @@ a joint venture of the **Hauptman Cartel** and **Grayson (Blackbird) SkyDomes In
     ```bash
         python3 -m build
     ```
+
+- to install locally while developing:
+    1. run:
+
+        ```bash
+            python3 -m pip install -U --editable .
+        ```
+
+    2. then run the dev server:
+
+        ```bash
+            poppy_s_dev_server
+        ```
