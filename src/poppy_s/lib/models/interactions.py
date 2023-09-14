@@ -2,7 +2,7 @@
 
 from typing import Optional, Type, cast, TYPE_CHECKING
 # from pydantic import conint
-from sqlmodel import Field, Relationship, SQLModel 
+from sqlmodel import Field, SQLModel #, Relationship
 
 from poppy_s.lib.models.prescriptionValidationErrors import (
     PrescriptionValidationErrorsBase
@@ -16,7 +16,7 @@ from poppy_s.lib.models.base import (
 from poppy_s.lib.models.multiLinkTableModels import InteractionMedicationLink
 
 if TYPE_CHECKING:
-    from poppy_s.lib.models.prescriptions import Prescription
+    # from poppy_s.lib.models.prescriptions import Prescription
     from poppy_s.lib.models.medications import MedicationBase #, Medication
 
 class InteractionBase(PrescriptionValidationErrorsBase):
