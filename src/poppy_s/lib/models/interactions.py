@@ -1,18 +1,18 @@
 #!/bin/env python3
 
-from typing import Optional, TYPE_CHECKING #, Type, cast
-# from pydantic import conint
+from typing import Optional, TYPE_CHECKING
 from sqlmodel import Field, Relationship #, SQLModel
 
 from poppy_s.lib.models.prescriptionValidationErrors import (
     PrescriptionValidationErrorsBase
 )
+
 # from poppy_s.lib.models.base import (
-#     generateMedicationLinkRelationship
-#     # MedicationLinkBaseAsPrimaryKey,
-#     # PrescriptionLinkBaseAsPrimaryKey,
-#     # InteractionLinkBaseAsPrimaryKey
+#     MedicationLinkBaseAsPrimaryKey,
+#     PrescriptionLinkBaseAsPrimaryKey,
+#     InteractionLinkBaseAsPrimaryKey
 # )
+
 from poppy_s.lib.models.multiLinkTableModels import InteractionMedicationLink
 
 if TYPE_CHECKING:
@@ -23,20 +23,8 @@ class InteractionBase(PrescriptionValidationErrorsBase):
     pass
 
 
-
-
-# Interaction_s_Medications_Field_BaseClass = cast(
-#     Type[SQLModel],
-#     generateMedicationLinkRelationship(
-#         back_population_field="interactions",
-#         link_model=InteractionMedicationLink
-#     )
-# )
-
-
 class Interaction(
     InteractionBase, 
-    # Interaction_s_Medications_Field_BaseClass, 
     table=True
 ):
     id: Optional[int] = Field(default=None, primary_key=True)

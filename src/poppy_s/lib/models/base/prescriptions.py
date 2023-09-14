@@ -1,13 +1,7 @@
 #!/bin/env python3
 
-from typing import Optional, Type, TypeVar, TYPE_CHECKING, Any, Sequence, Mapping, cast
-from sqlmodel import SQLModel, Field, Relationship
-from sqlalchemy.orm import RelationshipProperty
-from sqlalchemy.orm.decl_api import DeclarativeMeta
-
-
-if TYPE_CHECKING:
-    from poppy_s.lib.models.prescriptions import Prescription
+from typing import Optional, TypeVar
+from sqlmodel import SQLModel, Field
 
 class PrescriptionLinkBase(SQLModel):
     prescription_id : Optional[int] = Field(
@@ -38,97 +32,3 @@ T_PrescriptionLink_TypeVar = TypeVar(
     bound=PrescriptionLinkBase|PrescriptionLinkBaseAsPrimaryKey|PrescriptionLinkBaseWithRequiredID|PrescriptionLinkBaseAsPrimaryKeyWithRequiredID
 )
 
-# def generatePrescriptionLinkRelationship(
-#     *,
-#     containerRelashionship: bool = True,
-#     withSQLModelBaseClass: bool = True,
-#     link_model: Optional[Type[T_PrescriptionLink_TypeVar]] = None,
-#     back_population_field: Optional[str] = None,
-#     sa_relationship: Optional[RelationshipProperty] = None,
-#     sa_relationship_args: Optional[Sequence[Any]] = None,
-#     sa_relationship_kwargs: Optional[Mapping[str, Any]] = None
-# ) -> Type[SQLModel]|Type[DeclarativeMeta]:
-#     """
-#     generatePrescriptionLinkRelationship _summary_
-
-#     Returns
-#     -------
-#     Type[SQLModel]|Type[DeclarativeMeta]
-#         A base class to use to add the Relationship attribute to the subclass
-#     """
-
-#     if withSQLModelBaseClass and containerRelashionship:
-
-#         class PrescriptionsLinkRelationshipWithSQLModel(SQLModel):
-
-#             prescriptions : list["Prescription"] = Relationship(
-#                 back_populates=back_population_field,
-#                 link_model=link_model,
-#                 sa_relationship=sa_relationship,
-#                 sa_relationship_args=sa_relationship_args,
-#                 sa_relationship_kwargs=sa_relationship_kwargs
-#             )
-
-#         return PrescriptionsLinkRelationshipWithSQLModel
-    
-#     elif not withSQLModelBaseClass and containerRelashionship:
-
-#         class PrescriptionsLinkRelationship(DeclarativeMeta):
-
-#             prescriptions : list["Prescription"] = Relationship(
-#                 back_populates=back_population_field,
-#                 link_model=link_model,
-#                 sa_relationship=sa_relationship,
-#                 sa_relationship_args=sa_relationship_args,
-#                 sa_relationship_kwargs=sa_relationship_kwargs
-#             )
-
-#         return PrescriptionsLinkRelationship
-    
-#     elif withSQLModelBaseClass and not containerRelashionship:
-        
-#         class PrescriptionLinkRelationshipWithSQLModel(SQLModel):
-
-#             prescription : "Prescription" = Relationship(
-#                 back_populates=back_population_field,
-#                 link_model=link_model,
-#                 sa_relationship=sa_relationship,
-#                 sa_relationship_args=sa_relationship_args,
-#                 sa_relationship_kwargs=sa_relationship_kwargs
-#             )
-
-#         return PrescriptionLinkRelationshipWithSQLModel
-    
-#     else:
-
-#         class PrescriptionLinkRelationship(DeclarativeMeta):
-
-#             prescription : "Prescription" = Relationship(
-#                 back_populates=back_population_field,
-#                 link_model=link_model,
-#                 sa_relationship=sa_relationship,
-#                 sa_relationship_args=sa_relationship_args,
-#                 sa_relationship_kwargs=sa_relationship_kwargs
-#             )
-
-#         return PrescriptionLinkRelationship
-
-# SimplePrescriptionsLinkRelationship : Type[DeclarativeMeta] = cast(
-#     Type[DeclarativeMeta],
-#     generatePrescriptionLinkRelationship(withSQLModelBaseClass=False)
-# )
-# SimplePrescriptionLinkRelationship : Type[DeclarativeMeta] = cast(
-#     Type[DeclarativeMeta],
-#     generatePrescriptionLinkRelationship(
-#         containerRelashionship=False,
-#         withSQLModelBaseClass=False
-#     )
-# )
-# SimplePrescriptionsLinkRelationshipWithSQLModelBase : Type[SQLModel] = cast(
-#     Type[SQLModel],
-#     generatePrescriptionLinkRelationship()
-# )
-# SimplePrescriptionLinkRelationshipWithSQLModelBase : Type[SQLModel] = cast(
-#     Type[SQLModel],
-#     generatePrescriptionLinkRelationship(containerRelashionship=False)
-# )

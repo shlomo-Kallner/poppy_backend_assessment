@@ -1,7 +1,6 @@
 #!/bin/env python3
 
 from typing import Optional #, TYPE_CHECKING
-# from pydantic import conint
 from sqlmodel import Field #, SQLModel, Relationship
 
 from poppy_s.lib.models.base import (

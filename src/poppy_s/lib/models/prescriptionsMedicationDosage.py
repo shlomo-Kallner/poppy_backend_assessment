@@ -1,18 +1,12 @@
 #!/bin/env python3
 
-from typing import Optional, TYPE_CHECKING #, Type, cast
+from typing import Optional, TYPE_CHECKING
 from datetime import timedelta
 from sqlmodel import SQLModel, Field, Relationship
-# from sqlalchemy.orm.decl_api import DeclarativeMeta
 
 from poppy_s.lib.models.base import (
     MedicationLinkBaseWithRequiredID, 
     PrescriptionLinkBaseWithRequiredID
-    # ,
-    # # generateMedicationLinkRelationship,
-    # generatePrescriptionLinkRelationship,
-    # SimpleMedicationLinkRelationship,
-    # SimpleMedicationLinkRelationshipWithSQLModelBase
 )
 
 if TYPE_CHECKING:
@@ -36,19 +30,8 @@ class PrescriptionsMedicationDosageBaseWithMedicationID(
 ):
     pass
 
-# PrescriptionLink_With_dosage_BackPopulationField : Type[SQLModel] = cast(
-#     Type[SQLModel],
-#     generatePrescriptionLinkRelationship(
-#         back_population_field="dosages",
-#         containerRelashionship=False
-#     )
-# )
-
 class PrescriptionsMedicationDosage(
     PrescriptionsMedicationDosageBaseWithMedicationID, 
-    # SimpleMedicationLinkRelationship,
-    # SimpleMedicationLinkRelationshipWithSQLModelBase,
-    # PrescriptionLink_With_dosage_BackPopulationField, # type : ignore 
     table=True
 ):
     id: Optional[int] = Field(default=None, primary_key=True)

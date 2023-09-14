@@ -1,10 +1,9 @@
 #!/bin/env python3
 
-from typing import Optional, cast, Type, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship
 from pydantic import EmailStr
 
-# from poppy_s.lib.models.base import generatePrescriptionLinkRelationship
 
 if TYPE_CHECKING:
 #     # from poppy_s.lib.models.patients import Patient, PatientBase
@@ -15,16 +14,9 @@ class DoctorBase(SQLModel):
     email: EmailStr = Field(index=True, unique=True)
 
 
-# Doctor_s_Prescriptions_Field_BaseClass = cast(
-#     Type[SQLModel],
-#     generatePrescriptionLinkRelationship(
-#         back_population_field="doctor"
-#     )
-# )
 
 class Doctor(
     DoctorBase, 
-    # Doctor_s_Prescriptions_Field_BaseClass, 
     table=True
 ):
     id: Optional[int] = Field(default=None, primary_key=True)
