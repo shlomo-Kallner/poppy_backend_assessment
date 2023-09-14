@@ -20,7 +20,8 @@ class MedicationBase(SQLModel):
     )
     description: str
 
-
+## Query: re-evaluate why/if this should be here!!
+## Answer: We need them for the plugin's interactions fetcher...
 Medication_s_Interactions_Field_BaseClass = cast(
     Type[SQLModel],
     generateInteractionLinkRelationship(
@@ -29,7 +30,7 @@ Medication_s_Interactions_Field_BaseClass = cast(
     )
 )
 
-class Medication(MedicationBase, table=True):
+class Medication(MedicationBase, Medication_s_Interactions_Field_BaseClass, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
 
     ## Query: re-evaluate why/if this should be here!!
