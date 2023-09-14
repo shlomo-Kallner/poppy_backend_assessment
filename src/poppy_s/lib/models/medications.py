@@ -2,9 +2,9 @@
 
 from typing import Optional, TYPE_CHECKING
 # from pydantic import conint
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field #, Relationship
 
-from poppy_s.lib.models.interactionsMedicationLink import InteractionMedicationLink
+# from poppy_s.lib.models.interactionsMedicationLink import InteractionMedicationLink
 # from poppy_s.lib.models.prescriptionsMedicationLink import PrescriptionMedicationLink
 
 if TYPE_CHECKING:
@@ -27,10 +27,10 @@ class Medication(MedicationBase, table=True):
     ## Query: re-evaluate why/if this should be here!!
     ## Answer: We need them for the 
 
-    interactions : list["Interaction"] = Relationship(
-        back_populates="medications", 
-        link_model=InteractionMedicationLink
-    )
+    # interactions : list["Interaction"] = Relationship(
+    #     back_populates="medications", 
+    #     link_model=InteractionMedicationLink
+    # )
 
 
 class MedicationRead(MedicationBase):

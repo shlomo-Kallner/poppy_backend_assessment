@@ -2,10 +2,10 @@
 
 
 from poppy_s.lib.models.doctors import Doctor, DoctorRead, DoctorCreate
-from poppy_s.lib.models.interactions import Interaction, InteractionRead, InteractionCreate, InteractionReadWithMedications
 from poppy_s.lib.models.medications import Medication, MedicationRead, MedicationCreate
 from poppy_s.lib.models.patients import Patient, PatientRead, PatientCreate
 from poppy_s.lib.models.prescriptions import Prescription, PrescriptionRead, PrescriptionReadFullData, PrescriptionCreate
+
 from poppy_s.lib.models.prescriptionsMedicationDosage import (
     PrescriptionsMedicationDosage, 
     PrescriptionsMedicationDosageRead,
@@ -13,7 +13,13 @@ from poppy_s.lib.models.prescriptionsMedicationDosage import (
     PrescriptionsMedicationDosageBaseWithMedicationID,
     PrescriptionsMedicationDosageReadFull
 )
-from poppy_s.lib.models.interactionsMedicationLink import InteractionMedicationLink
+from poppy_s.lib.models.interactions import (
+    Interaction, 
+    InteractionRead, 
+    InteractionCreate, 
+    InteractionReadWithMedications,
+    InteractionMedicationLink
+)
 
 
 __all__ = (
