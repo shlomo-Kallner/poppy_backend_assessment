@@ -1,4 +1,5 @@
 #!/bin/env python3
+from typing import cast
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session #, select
@@ -17,14 +18,18 @@ from poppy_s.lib.models import (
     PrescriptionsMedicationDosageBaseWithMedicationID,
     Medication,
     MedicationRead,
-    Interaction
+    Interaction,
+    PrescriptionValidationErrorsBase
 )
 
 from poppy_s.lib.helpers.plugin_helpers.medications import find_medication_by_name
 
 from poppy_s.lib.helpers.plugin_helpers.interactions import (
     find_interactions_by_rxcui, 
-    compile_interactions_warnings
+    # compile_interactions_warnings 
+)
+from poppy_s.lib.helpers.plugin_helpers.validators import (
+    compile_validator_s_warnings
 )
 
 from poppy_s.api.v1.helper_generator import genRouter
@@ -96,20 +101,33 @@ def getRouter() -> APIRouter:
         elif prescription.sealed_at is not None:
             raise HTTPException(status_code=400, detail=f"Prescription Already Sealed!")
 
+        ## TODO: replace with new Generic `PrescriptionValidationErrorsBase` plugin function!!!
         interactions : list[Interaction] = find_interactions_by_rxcui(
             session, 
             medications=prescription.medications,
             loadMore=loadmore
         )
 
-        warnings = compile_interactions_warnings(interactions, asList=True)
+        # temporary! until the plugin use is resolved!!
+        warnings = compile_validator_s_warnings(
+            cast(list[PrescriptionValidationErrorsBase], interactions),  
+            asList=True
+        )
 
         prescription.warnings.extend(warnings)
-        prescription.sealed_at = datetime.now(timezone.utc)
 
         session.add(prescription)
         session.commit()
-        session.refresh(prescription)
+
+        if len(prescription.warnings) == 0:
+            prescription.sealed_at = datetime.now(timezone.utc)
+
+            session.add(prescription)
+            session.commit()
+            session.refresh(prescription)
+
+        else:
+            raise HTTPException(status_code=400, detail=f"Unable to Seal Prescription with Warnings!")
 
         return prescription
 

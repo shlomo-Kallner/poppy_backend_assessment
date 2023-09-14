@@ -2,8 +2,7 @@
 
 
 from poppy_s.lib.plugins.specs import PluginSpec
-from poppy_s.lib.models import Medication
-from poppy_s.lib.models import InteractionCreate
+from poppy_s.lib.models import Medication, InteractionCreate, PrescriptionValidationErrorsBase
 
 @PluginSpec
 def search_medication_interactions_by_rxcui(medications: list[Medication]) -> list[InteractionCreate]:
@@ -24,4 +23,20 @@ def search_medication_interactions_by_rxcui(medications: list[Medication]) -> li
         _description_
     """    
 
+    return []
+
+
+
+@PluginSpec
+def validate_medications_list(medications: list[Medication]) -> list[PrescriptionValidationErrorsBase]:
+
+    """
+     _summary_
+
+    Returns
+    -------
+    list[PrescriptionValidationErrorsBase]
+        A list of already created and databased instances of the 
+        Plugin's SubClass of `PrescriptionValidationErrorsBase`
+    """
     return []

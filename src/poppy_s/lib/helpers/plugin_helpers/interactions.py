@@ -177,9 +177,9 @@ def find_interactions_by_rxcui(session: Session, medications: list[Medication], 
 
 
 
-def compile_interactions_warnings(interactions: list[Interaction], asList: bool = True, sep: str = '\n') -> list[str] | str:
-    res : list[str] = [
-        inter_.warning for inter_ in interactions
-    ]
+# def compile_interactions_warnings(interactions: list[Interaction], asList: bool = True, sep: str = '\n') -> list[str] | str:
+#     res : list[str] = [
+#         inter_.warning for inter_ in interactions
+#     ]
 
-    return res if asList else sep.join(res)
+#     return res if asList else sep.join(res)
