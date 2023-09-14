@@ -42,96 +42,96 @@ T_InteractionLink_TypeVar = TypeVar(
     bound=InteractionLinkBase|InteractionLinkBaseWithRequiredID|InteractionLinkBaseAsPrimaryKey|InteractionLinkBaseAsPrimaryKeyWithRequiredID
 )
 
-def generateInteractionLinkRelationship(
-    *,
-    containerRelashionship: bool = True,
-    withSQLModelBaseClass: bool = True,
-    link_model: Optional[Type[T_InteractionLink_TypeVar]] = None,
-    back_population_field: Optional[str] = None,
-    sa_relationship: Optional[RelationshipProperty] = None,
-    sa_relationship_args: Optional[Sequence[Any]] = None,
-    sa_relationship_kwargs: Optional[Mapping[str, Any]] = None
-) -> Type[SQLModel]|Type[DeclarativeMeta]:
+# def generateInteractionLinkRelationship(
+#     *,
+#     containerRelashionship: bool = True,
+#     withSQLModelBaseClass: bool = True,
+#     link_model: Optional[Type[T_InteractionLink_TypeVar]] = None,
+#     back_population_field: Optional[str] = None,
+#     sa_relationship: Optional[RelationshipProperty] = None,
+#     sa_relationship_args: Optional[Sequence[Any]] = None,
+#     sa_relationship_kwargs: Optional[Mapping[str, Any]] = None
+# ) -> Type[SQLModel]|Type[DeclarativeMeta]:
 
-    if withSQLModelBaseClass and containerRelashionship:
+#     if withSQLModelBaseClass and containerRelashionship:
 
-        class InteractionsLinkRelationshipWithSQLModel(SQLModel):
+#         class InteractionsLinkRelationshipWithSQLModel(SQLModel):
 
-            interactions : list["Interaction"] = Relationship(
-                back_populates=back_population_field,
-                link_model=link_model,
-                sa_relationship=sa_relationship,
-                sa_relationship_args=sa_relationship_args,
-                sa_relationship_kwargs=sa_relationship_kwargs
-            )
+#             interactions : list["Interaction"] = Relationship(
+#                 back_populates=back_population_field,
+#                 link_model=link_model,
+#                 sa_relationship=sa_relationship,
+#                 sa_relationship_args=sa_relationship_args,
+#                 sa_relationship_kwargs=sa_relationship_kwargs
+#             )
 
-        return InteractionsLinkRelationshipWithSQLModel
+#         return InteractionsLinkRelationshipWithSQLModel
 
-    elif not withSQLModelBaseClass and containerRelashionship:
+#     elif not withSQLModelBaseClass and containerRelashionship:
 
-        class InteractionsLinkRelationshipWithoutSQLModel(DeclarativeMeta):
+#         class InteractionsLinkRelationshipWithoutSQLModel(DeclarativeMeta):
 
-            interactions : list["Interaction"] = Relationship(
-                back_populates=back_population_field,
-                link_model=link_model,
-                sa_relationship=sa_relationship,
-                sa_relationship_args=sa_relationship_args,
-                sa_relationship_kwargs=sa_relationship_kwargs
-            )
+#             interactions : list["Interaction"] = Relationship(
+#                 back_populates=back_population_field,
+#                 link_model=link_model,
+#                 sa_relationship=sa_relationship,
+#                 sa_relationship_args=sa_relationship_args,
+#                 sa_relationship_kwargs=sa_relationship_kwargs
+#             )
 
-        return InteractionsLinkRelationshipWithoutSQLModel
+#         return InteractionsLinkRelationshipWithoutSQLModel
 
-    elif withSQLModelBaseClass and not containerRelashionship:
+#     elif withSQLModelBaseClass and not containerRelashionship:
 
-        class InteractionLinkRelationshipWithSQLModel(SQLModel):
+#         class InteractionLinkRelationshipWithSQLModel(SQLModel):
 
-            interaction : "Interaction" = Relationship(
-                back_populates=back_population_field,
-                link_model=link_model,
-                sa_relationship=sa_relationship,
-                sa_relationship_args=sa_relationship_args,
-                sa_relationship_kwargs=sa_relationship_kwargs
-            )
+#             interaction : "Interaction" = Relationship(
+#                 back_populates=back_population_field,
+#                 link_model=link_model,
+#                 sa_relationship=sa_relationship,
+#                 sa_relationship_args=sa_relationship_args,
+#                 sa_relationship_kwargs=sa_relationship_kwargs
+#             )
 
-        return InteractionLinkRelationshipWithSQLModel
+#         return InteractionLinkRelationshipWithSQLModel
     
-    else:
+#     else:
 
-        class InteractionLinkRelationshipWithoutSQLModel(DeclarativeMeta):
+#         class InteractionLinkRelationshipWithoutSQLModel(DeclarativeMeta):
 
-            interaction : "Interaction" = Relationship(
-                back_populates=back_population_field,
-                link_model=link_model,
-                sa_relationship=sa_relationship,
-                sa_relationship_args=sa_relationship_args,
-                sa_relationship_kwargs=sa_relationship_kwargs
-            )
+#             interaction : "Interaction" = Relationship(
+#                 back_populates=back_population_field,
+#                 link_model=link_model,
+#                 sa_relationship=sa_relationship,
+#                 sa_relationship_args=sa_relationship_args,
+#                 sa_relationship_kwargs=sa_relationship_kwargs
+#             )
 
-        return InteractionLinkRelationshipWithoutSQLModel
+#         return InteractionLinkRelationshipWithoutSQLModel
 
 
 
-SimpleInteractionsLinkRelationship : Type[DeclarativeMeta] = cast(
-    Type[DeclarativeMeta],
-    generateInteractionLinkRelationship(
-        withSQLModelBaseClass=False
-    )
-)
-SimpleInteractionLinkRelationship : Type[DeclarativeMeta] = cast(
-    Type[DeclarativeMeta],
-    generateInteractionLinkRelationship(
-        containerRelashionship=False,
-        withSQLModelBaseClass=False
-    )
-)
-SimpleInteractionsLinkRelationshipWithSQLModelBase : Type[SQLModel] = cast(
-    Type[SQLModel],
-    generateInteractionLinkRelationship()
-)
-SimpleInteractionLinkRelationshipWithSQLModelBase : Type[SQLModel] = cast(
-    Type[SQLModel],
-    generateInteractionLinkRelationship(containerRelashionship=False)
-)
+# SimpleInteractionsLinkRelationship : Type[DeclarativeMeta] = cast(
+#     Type[DeclarativeMeta],
+#     generateInteractionLinkRelationship(
+#         withSQLModelBaseClass=False
+#     )
+# )
+# SimpleInteractionLinkRelationship : Type[DeclarativeMeta] = cast(
+#     Type[DeclarativeMeta],
+#     generateInteractionLinkRelationship(
+#         containerRelashionship=False,
+#         withSQLModelBaseClass=False
+#     )
+# )
+# SimpleInteractionsLinkRelationshipWithSQLModelBase : Type[SQLModel] = cast(
+#     Type[SQLModel],
+#     generateInteractionLinkRelationship()
+# )
+# SimpleInteractionLinkRelationshipWithSQLModelBase : Type[SQLModel] = cast(
+#     Type[SQLModel],
+#     generateInteractionLinkRelationship(containerRelashionship=False)
+# )
 
 
 

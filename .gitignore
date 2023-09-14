@@ -7,4 +7,9 @@ src/poppy_s.egg-info/**
 dist
 dist/
 dist/**
-
+__pycache__
+**/__pycache__
+__pycache__/
+**/__pycache__/
+__pycache__/**
+**/__pycache__/**
