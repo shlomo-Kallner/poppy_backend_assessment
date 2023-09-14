@@ -1,16 +1,16 @@
 #!/bin/env python3
 
 
-from typing import Generator
-# from urllib.parse import quote_plus
+from typing import Generator, cast
 from datetime import datetime, timezone
 from warnings import warn
 
-from requests import Session
+from requests import Session as RequestSession
 
+from sqlmodel import Session
 from poppy_s.lib.plugins import PluginImpl
 from poppy_s.lib.helpers.model_helpers.utils import flatten_model_list
-from poppy_s.lib.models import Medication
+from poppy_s.lib.models import Medication, Prescription, PrescriptionValidationErrorsBase
 from poppy_s.lib.models import InteractionCreate
 
 @PluginImpl(wrapper=True, specname="search_medication_interactions_by_rxcui")
@@ -146,7 +146,7 @@ def search_medication_interactions_by_rxcui(medications: list[Medication]) -> li
         raise RuntimeError("The Drug-Drug Interaction API has been Discontinued!!")
 
 
-    with Session() as s:
+    with RequestSession() as s:
         params = {
             "rxcuis": rxcuis_nx,
         }
@@ -182,3 +182,39 @@ def search_medication_interactions_by_rxcui(medications: list[Medication]) -> li
                     )
 
     return res
+
+
+
+
+@PluginImpl
+def validate_medications_list(session: Session, prescription: Prescription, loadMore: bool = False) -> list[PrescriptionValidationErrorsBase]:
+
+    """
+    validate_medications_list
+    
+    Given a list Medications, search for 
+    Interactions of any combo of them.
+
+    Parameters
+    ----------
+    medications : list[Medication]
+        _description_
+
+    Returns
+    -------
+    list[PrescriptionValidationErrorsBase]
+        A list of already created and databased instances of the 
+        Plugin's SubClass of `PrescriptionValidationErrorsBase`
+    """
+
+    # this is here to aviod issues of Circular Imports!!! 
+    #   (We are calling the function above us throught a helper function!)
+    from poppy_s.lib.helpers.plugin_helpers.interactions import find_interactions_by_rxcui
+
+    res = find_interactions_by_rxcui(
+        session,
+        medications=prescription.medications,
+        loadMore=loadMore
+    )
+
+    return cast(list[PrescriptionValidationErrorsBase], res)

@@ -24,12 +24,13 @@ from poppy_s.lib.models import (
 
 from poppy_s.lib.helpers.plugin_helpers.medications import find_medication_by_name
 
-from poppy_s.lib.helpers.plugin_helpers.interactions import (
-    find_interactions_by_rxcui, 
-    # compile_interactions_warnings 
-)
+# from poppy_s.lib.helpers.plugin_helpers.interactions import (
+#     find_interactions_by_rxcui, 
+#     # compile_interactions_warnings 
+# )
 from poppy_s.lib.helpers.plugin_helpers.validators import (
-    compile_validator_s_warnings
+    compile_validator_s_warnings,
+    validate_prescription
 )
 
 from poppy_s.api.v1.helper_generator import genRouter
@@ -101,16 +102,15 @@ def getRouter() -> APIRouter:
         elif prescription.sealed_at is not None:
             raise HTTPException(status_code=400, detail=f"Prescription Already Sealed!")
 
-        ## TODO: replace with new Generic `PrescriptionValidationErrorsBase` plugin function!!!
-        interactions : list[Interaction] = find_interactions_by_rxcui(
+        validation_errors = validate_prescription(
             session, 
-            medications=prescription.medications,
+            prescription=prescription,
             loadMore=loadmore
         )
 
         # temporary! until the plugin use is resolved!!
         warnings = compile_validator_s_warnings(
-            cast(list[PrescriptionValidationErrorsBase], interactions),  
+            validation_errors,  
             asList=True
         )
 
