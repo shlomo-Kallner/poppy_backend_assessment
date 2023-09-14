@@ -34,13 +34,13 @@ Interaction_s_Medications_Field_BaseClass = cast(
 )
 
 
-class Interaction(InteractionBase, table=True):
+class Interaction(InteractionBase, Interaction_s_Medications_Field_BaseClass, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
 
-    medications : list["Medication"] = Relationship(
-        back_populates="interactions",
-        link_model=InteractionMedicationLink
-    )
+    # medications : list["Medication"] = Relationship(
+    #     back_populates="interactions",
+    #     link_model=InteractionMedicationLink
+    # )
 
 
 
