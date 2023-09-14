@@ -48,6 +48,14 @@ def generatePrescriptionLinkRelationship(
     sa_relationship_args: Optional[Sequence[Any]] = None,
     sa_relationship_kwargs: Optional[Mapping[str, Any]] = None
 ) -> Type[SQLModel]|Type[DeclarativeMeta]:
+    """
+    generatePrescriptionLinkRelationship _summary_
+
+    Returns
+    -------
+    Type[SQLModel]|Type[DeclarativeMeta]
+        A base class to use to add the Relationship attribute to the subclass
+    """
 
     if withSQLModelBaseClass and containerRelashionship:
 
