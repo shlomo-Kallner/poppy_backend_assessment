@@ -33,7 +33,7 @@ from poppy_s.lib.helpers.plugin_helpers.validators import (
     validate_prescription
 )
 
-from poppy_s.api.v1.helper_generator import genRouter
+from poppy_s.lib.helpers.routes_helpers.helper_generator import genRouter
 
 def getRouter() -> APIRouter:
 

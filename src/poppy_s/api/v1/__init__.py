@@ -6,6 +6,7 @@ from poppy_s.api.v1.doctors import getRouter as getDoctorsRouter
 from poppy_s.api.v1.patients import getRouter as getPatientsRouter
 from poppy_s.api.v1.medications import getRouter as getMedicationsRouter
 from poppy_s.api.v1.prescriptions import getRouter as getPrescriptionsRouter
+from poppy_s.api.v1.plugins import getRouter as getPluginsRouter
 
 def getRouter() -> APIRouter:
 
@@ -25,6 +26,10 @@ def getRouter() -> APIRouter:
 
     router.include_router(
         getPrescriptionsRouter()
+    )
+
+    router.include_router(
+        getPluginsRouter()
     )
 
 
