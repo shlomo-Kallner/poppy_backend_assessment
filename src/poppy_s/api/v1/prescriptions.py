@@ -108,26 +108,29 @@ def getRouter() -> APIRouter:
             loadMore=loadmore
         )
 
-        # temporary! until the plugin use is resolved!!
-        warnings = compile_validator_s_warnings(
-            validation_errors,  
-            asList=True
-        )
 
-        prescription.warnings.extend(warnings)
+        if len(validation_errors) > 0:
+            # prescription.warnings.extend(warnings)
+
+            # session.add(prescription)
+            # session.commit()
+
+
+            warnings = compile_validator_s_warnings(
+                validation_errors,  
+                asList=False
+            )
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Unable to Seal Prescription with Warnings!\nWarnings:\n{warnings}"
+            )
+
+        
+        prescription.sealed_at = datetime.now(timezone.utc)
 
         session.add(prescription)
         session.commit()
-
-        if len(prescription.warnings) == 0:
-            prescription.sealed_at = datetime.now(timezone.utc)
-
-            session.add(prescription)
-            session.commit()
-            session.refresh(prescription)
-
-        else:
-            raise HTTPException(status_code=400, detail=f"Unable to Seal Prescription with Warnings!")
+        session.refresh(prescription)
 
         return prescription
 
