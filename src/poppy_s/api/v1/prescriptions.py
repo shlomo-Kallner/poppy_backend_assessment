@@ -88,7 +88,7 @@ def getRouter() -> APIRouter:
         return prescription
 
     @router.post("/{item_id}/close", response_model=PrescriptionReadFullData)
-    async def closeMedicationToPrescription(
+    async def sealPrescription(
         *, 
         session: Session = Depends(database.get_session), 
         item_id: int,
