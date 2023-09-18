@@ -47,19 +47,14 @@ def getPlugins() -> PluginManager:
     # pm.add_hookspecs(nih_data)
     # pm.add_hookspecs(validators)
 
-    def recursively_load(mod_pack: ModuleType, is_plugin_spec:bool, super_pack: Optional[str] = None) -> None:
+    def recursively_load(mod_pack: ModuleType, is_plugin_spec:bool) -> None:
 
         mod_dir = importlib_files(mod_pack)
 
         def _load_mod(name: str) -> ModuleType:
             return import_module(
                 f".{name}",
-                package=''.join( 
-                    [
-                        f'{super_pack}.' if super_pack is not None else '',
-                        f"{mod_pack.__package__}"
-                    ]
-                )
+                package=mod_pack.__package__
             )
 
         for mod in mod_dir.iterdir():
@@ -82,19 +77,14 @@ def getPlugins() -> PluginManager:
                 sub_pack = _load_mod(mod.name)
                 recursively_load(
                     sub_pack,
-                    is_plugin_spec=is_plugin_spec,
-                    super_pack=''.join(
-                        [
-                            f'{super_pack}.' if super_pack is not None else '',
-                            mod.name
-                        ]
-                    )
+                    is_plugin_spec=is_plugin_spec
                 )
 
             elif (
                 mod.is_file() and 
                 mod_mat.start() != mod_mat.end() and
-                mod_mat["name"] is not None
+                mod_mat["name"] is not None and 
+                mod_mat["name"] != "__init__"
             ):
                 # load this!
                 sub_mod = _load_mod(mod_mat["name"])
@@ -111,6 +101,8 @@ def getPlugins() -> PluginManager:
     recursively_load(specs, is_plugin_spec=True)
 
     pm.load_setuptools_entrypoints(NAME)
+
+    recursively_load(builtin_implemtation_packages, is_plugin_spec=False)
 
     # pm.register(basic_nih_data)
     # pm.register(basic_validators)

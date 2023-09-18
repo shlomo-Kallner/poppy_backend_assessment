@@ -7,7 +7,8 @@ from sqlmodel import Session, select, col, and_ #, tuple_, exists, SQLModel
 
 from poppy_s.lib.models import PrescriptionValidationErrorsBase, Prescription
 from poppy_s.lib.container import globalContainer
-
+from poppy_s.lib.helpers.plugin_helpers.exception import check_if_plugins_loaded
+from poppy_s.lib.helpers.plugin_helpers.utils import pmTypeHelper
 
 
 
@@ -21,10 +22,11 @@ def compile_validator_s_warnings(interactions: list[PrescriptionValidationErrors
 
 def validate_prescription(session: Session, prescription: Prescription, loadMore: bool = False) -> list[PrescriptionValidationErrorsBase]:
 
-    if globalContainer.plugins is None:
-        raise RuntimeError("the plugins have not been loaded and stored in the globalContainer!")
+    check_if_plugins_loaded()
 
-    res = globalContainer.plugins.hook.validate_medications_list(
+    res = pmTypeHelper(
+        globalContainer.plugins
+    ).hook.validate_medications_list(
         session=session,
         prescription=prescription,
         loadMore=loadMore
