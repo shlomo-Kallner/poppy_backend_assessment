@@ -41,13 +41,14 @@ a joint venture of the **Hauptman Cartel** and **Grayson (Blackbird) SkyDomes In
     1. run:
 
         ```bash
-            python3 -m pip install -U --editable .
+            python3 -m pip install -U --editable .[dev]
         ```
 
     2. then run the dev server:
 
         ```bash
-            poppy_s_dev_server
+            # use '--help' to see all the Command Line Options!
+            poppy_s_dev_server --help
         ```
 
 ## Notes

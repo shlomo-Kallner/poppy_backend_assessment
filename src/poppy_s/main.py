@@ -81,12 +81,49 @@ def run_main():
             file_okay=False
         )
     ):
+        """
+        main 
+        The "inner", "actual" CLI Main Function, wrapped in a Typer Command.
 
+        Parameters
+        ----------
+        debug : bool, optional
+            If to debug the project, 
+            enables use of 'debugpy' to connect to VSCode, 
+            by default False
+        reload : bool, optional
+            Whether to enable "uvicorn" 
+            to reload on file changes, 
+            by default False
+        server_host : str, optional
+            The Host IP Address for "uvicorn", 
+            by default "127.0.0.1"
+        debug_host : str, optional
+            The Host IP Address for "debugpy", 
+            by default "127.0.0.1"
+        server_port : int, optional
+            The Host IP Port for "uvicorn", 
+            by default 8080
+        debug_port : int, optional
+            The Host IP Port for "debugpy", 
+            by default 5678
+        workers : int, optional
+            The number of Worker Processes "uvicorn" should use, 
+            by default 1
+        debug_log_dir : Optional[Path], optional
+            An Optional Directory Path for "debugpy" 
+            to write log files into, if a Path or str is given, 
+            by default None
+        """        
         _server_host = IPvAnyAddress.validate(server_host)
         _debug_host = IPvAnyAddress.validate(debug_host)
 
         if debug:
-            if debug_log_dir is not None and (_log_dir := Path(debug_log_dir).resolve() ).exists():
+            if (
+                debug_log_dir is not None and 
+                (_log_dir := Path(debug_log_dir).resolve() ).exists() and
+                _log_dir.is_dir()
+            ):
                 debugpy.log_to(str(_log_dir))
             debugpy.listen((str(_debug_host), debug_port))
             secho("Awaiting Debugger Connection..", blink=True, fg="red")
