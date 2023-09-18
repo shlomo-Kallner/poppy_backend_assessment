@@ -63,6 +63,7 @@ from poppy_s.lib.models.multiLinkTableModels import (
 )
 from poppy_s.lib.models.prescriptionValidationErrors import PrescriptionValidationErrorsBase
 
+###################
 # NOTE: current error "issubclass() arg 1 must be a class" from `pydantic.schema.field_singleton_schema`
 #   may be solved using the comments [here](https://github.com/tiangolo/sqlmodel/issues/121)
 #   and [here](https://github.com/pydantic/pydantic/issues/1298).. 
@@ -74,6 +75,7 @@ Interaction.update_forward_refs(
     Medication=Medication
 )
 
+
 PrescriptionsMedicationDosageReadFull.update_forward_refs(
     MedicationRead=MedicationRead,
     PrescriptionRead=PrescriptionRead
@@ -81,7 +83,39 @@ PrescriptionsMedicationDosageReadFull.update_forward_refs(
 PrescriptionsMedicationDosageRead.update_forward_refs(
     MedicationRead=MedicationRead
 )
+PrescriptionsMedicationDosage.update_forward_refs(
+    Prescription=Prescription,
+    Medication=Medication
+)
 
+
+PrescriptionReadFullData.update_forward_refs(
+    MedicationRead=MedicationRead,
+    DoctorRead=DoctorRead,
+    PatientRead=PatientRead
+)
+Prescription.update_forward_refs(
+    Medication=Medication,
+    Doctor=Doctor,
+    Patient=Patient
+)
+
+
+Patient.update_forward_refs(
+    Prescription=Prescription
+)
+
+
+Medication.update_forward_refs(
+    Interaction=Interaction
+)
+
+
+Doctor.update_forward_refs(
+    Prescription=Prescription
+)
+
+###################
 
 __all__ = (
     "Doctor", 

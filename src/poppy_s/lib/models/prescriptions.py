@@ -34,7 +34,7 @@ class Prescription(PrescriptionBase, table=True):
     )
     doctor : "Doctor" = Relationship(back_populates="prescriptions")
     patient : "Patient" = Relationship(back_populates="prescriptions")
-    warnings: list[str] = []
+    # warnings: list[str] = []
 
 class PrescriptionRead(PrescriptionBase):
     id: int
@@ -51,4 +51,4 @@ class PrescriptionReadFullData(PrescriptionRead):
     dosages : list[PrescriptionsMedicationDosageRead] = []
     doctor: "DoctorRead"
     patient : "PatientRead"
-    warnings: list[str] = []
+    # warnings: list[str] = []
