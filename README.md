@@ -1,6 +1,6 @@
 # Poppy_s - Diagnostic Robotics Backend App Assignment
 
-## Introducing "Poppy's" - A SciFi Intro^[1](#notes)^
+## Introducing "Poppy's" - A SciFi Intro[^1]
 
 **Golden Circle** (by **Kingsman, Taylor & Statesman, Lee-Curie LLC**) [incorporation pending] are proud to present:
 
@@ -50,11 +50,11 @@ a joint venture of the **Hauptman Cartel** and **Grayson (Blackbird) SkyDomes In
             poppy_s_dev_server
         ```
 
-## Notes:
+## Notes
 
-### External Copyrights:
+### External Copyrights
 
-1. All Names from the "Honor Harrington" Book Series by David Weber and from the "Kingsman: The Golden Circle"(2017) Movie that are/may be trade marked or copyright protected in any way:
+[^1]: All Names from the "Honor Harrington" Book Series by David Weber and from the "Kingsman: The Golden Circle"(2017) Movie that are/may be trade marked or copyright protected in any way:
     1. Belong to their respective owners,
     2. Are being used under the [Fair Use Clauses of U.S. Copyright Law and Israeli Copyright Law](https://en.wikipedia.org/wiki/Fair_use):
        1. In HOMAGE (See [Homage - Wordnik](https://www.wordnik.com/words/homage) definition 3 and [Homage - Mirriam-Webster](https://www.merriam-webster.com/dictionary/homage) definition 2b)
