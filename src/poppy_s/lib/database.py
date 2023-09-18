@@ -30,7 +30,10 @@ class Database:
         self._engine = create_engine(
             config.database.DB_URL, 
             echo=config.app.DEBUG, 
-            connect_args=connect_args,
+            connect_args={
+                "check_same_thread": False,
+                **connect_args
+            },
             **kwargs
         )
 
