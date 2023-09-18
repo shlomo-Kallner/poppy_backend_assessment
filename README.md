@@ -4,7 +4,7 @@
 
 **Golden Circle** (by **Kingsman, Taylor & Statesman, Lee-Curie LLC**) [incorporation pending] are proud to present:
 
-By Appoinment to Her Imperial Majesty The Emperess of the Star Empire of Manticore
+By Appoinment to Her Imperial Majesty The Empress of the Star Empire of Manticore
 Manufacturers and Developers of Advanced Medical Technologies (Golden Circle)
 **Poppy's!  "Saving Lives - Legalize! - One Verified Prescription at a Time!"**
 
