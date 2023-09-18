@@ -10,6 +10,12 @@ if TYPE_CHECKING:
     from poppy_s.lib.models.prescriptions import PrescriptionBase, Prescription
 
 class DoctorBase(SQLModel):
+    """
+    DoctorBase 
+    
+    A ABC for DB Entries for a Doctor in the System.
+
+    """    
     name: str = Field(index=True, unique=True, min_length=1)
     email: EmailStr = Field(index=True, unique=True)
 

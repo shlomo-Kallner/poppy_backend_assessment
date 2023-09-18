@@ -2,6 +2,8 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from os import getcwd
+from pathlib import Path
 
 from poppy_s.__version__ import TITLE, VERSION
 from poppy_s.api import getRouter
@@ -43,8 +45,8 @@ def getApp(config: Configuration, plugins: PluginManager) -> FastAPI:
 
 plugins = getPlugins()
 configuration : Configuration = load_config(
-    plugins=plugins
-    # _env_file
+    plugins=plugins,
+    env_file_path=Path(getcwd(), '.env')
 )
 app = getApp(configuration, plugins)
 

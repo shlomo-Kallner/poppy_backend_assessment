@@ -19,10 +19,28 @@ from poppy_s.lib.models.base import (
     InteractionLinkBaseAsPrimaryKeyWithRequiredID,
     T_InteractionLink_TypeVar
 )
-from poppy_s.lib.models.doctors import Doctor, DoctorRead, DoctorCreate
-from poppy_s.lib.models.medications import Medication, MedicationRead, MedicationCreate
-from poppy_s.lib.models.patients import Patient, PatientRead, PatientCreate
-from poppy_s.lib.models.prescriptions import Prescription, PrescriptionRead, PrescriptionReadFullData, PrescriptionCreate
+from poppy_s.lib.models.doctors import (
+    Doctor, 
+    DoctorRead, 
+    DoctorCreate
+)
+from poppy_s.lib.models.medications import (
+    Medication, 
+    MedicationBase, 
+    MedicationRead, 
+    MedicationCreate
+)
+from poppy_s.lib.models.patients import (
+    Patient, 
+    PatientRead, 
+    PatientCreate
+)
+from poppy_s.lib.models.prescriptions import (
+    Prescription, 
+    PrescriptionRead, 
+    PrescriptionReadFullData, 
+    PrescriptionCreate
+)
 
 from poppy_s.lib.models.prescriptionsMedicationDosage import (
     PrescriptionsMedicationDosage, 
@@ -44,6 +62,25 @@ from poppy_s.lib.models.multiLinkTableModels import (
     InteractionPrescriptionLink
 )
 from poppy_s.lib.models.prescriptionValidationErrors import PrescriptionValidationErrorsBase
+
+# NOTE: current error "issubclass() arg 1 must be a class" from `pydantic.schema.field_singleton_schema`
+#   may be solved using the comments [here](https://github.com/tiangolo/sqlmodel/issues/121)
+#   and [here](https://github.com/pydantic/pydantic/issues/1298).. 
+
+InteractionReadWithMedications.update_forward_refs(
+    MedicationBase=MedicationBase
+)
+Interaction.update_forward_refs(
+    Medication=Medication
+)
+
+PrescriptionsMedicationDosageReadFull.update_forward_refs(
+    MedicationRead=MedicationRead,
+    PrescriptionRead=PrescriptionRead
+)
+PrescriptionsMedicationDosageRead.update_forward_refs(
+    MedicationRead=MedicationRead
+)
 
 
 __all__ = (
