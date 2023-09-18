@@ -51,6 +51,11 @@ a joint venture of the **Hauptman Cartel** and **Grayson (Blackbird) SkyDomes In
             poppy_s_dev_server --help
         ```
 
+    3. then navigate to the `/docs` route of the server address given in the Console.
+    4. setup at least one Doctor (use the `/api/v1/doctor/` route in the Swagger UI) 
+    5. and One Patient (use the `/api/v1/patient/` route in the Swagger UI).
+    6. Now you can add Prescriptions!!
+
 ## Notes
 
 ### External Copyrights
