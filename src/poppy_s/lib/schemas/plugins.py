@@ -11,7 +11,7 @@ from fastapi.routing import APIRoute
 from fastapi.datastructures import Default
 from fastapi.utils import generate_unique_id
 from starlette.routing import BaseRoute
-from pydantic import BaseModel
+from pydantic import BaseModel #, BaseConfig
 
 
 class RouterPluginSchema(BaseModel):
@@ -27,3 +27,6 @@ class RouterPluginSchema(BaseModel):
     generate_unique_id_function: Callable[[APIRoute], str] = Default(
         generate_unique_id
     )
+
+    class Config:
+        arbitrary_types_allowed = True
