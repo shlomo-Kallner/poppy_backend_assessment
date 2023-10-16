@@ -25,22 +25,30 @@ class Database:
     #
     #   return self._engine
 
-    def createDBEngine(self, config: Configuration, connect_args: dict = {}) -> BaseEngine | FutureEngine:
+    def createDBEngine(self, config: Configuration, connect_args: dict = {}, **kwargs) -> BaseEngine | FutureEngine:
         
         self._engine = create_engine(
             config.database.DB_URL, 
             echo=config.app.DEBUG, 
-            connect_args=connect_args
+            connect_args={
+                "check_same_thread": False,
+                **connect_args
+            },
+            **kwargs
         )
 
         return self._engine
     
 
     def create_db_and_tables(self):
+        if self.engine is None:
+            raise ValueError("The Engine is Not Initialized!")
         SQLModel.metadata.create_all(self._engine)
 
     # @contextmanager
     def get_session(self) -> Generator[Session, None, None]:
+        if self.engine is None:
+            raise ValueError("The Engine is Not Initialized!")
         with Session(self._engine) as session:
             yield session
 

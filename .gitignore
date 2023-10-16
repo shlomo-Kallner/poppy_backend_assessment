@@ -7,4 +7,16 @@ src/poppy_s.egg-info/**
 dist
 dist/
 dist/**
-
+__pycache__
+**/__pycache__
+__pycache__/
+**/__pycache__/
+__pycache__/**
+**/__pycache__/**
+.pytest_cache
+.pytest_cache/
+.pytest_cache/**
+.env
+**/.env
+database.db
+**/database.db

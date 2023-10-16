@@ -27,11 +27,14 @@ class Prescription(PrescriptionBase, table=True):
     sealed_at : Optional[datetime] = None
     # deleted_at : Optional[datetime] = None
 
-    dosages : list[PrescriptionsMedicationDosage] = Relationship(back_populates="prescriptions")
-    medications : list["Medication"] = Relationship(link_model=PrescriptionsMedicationDosage)
+    dosages : list[PrescriptionsMedicationDosage] = Relationship(back_populates="prescription")
+    medications : list["Medication"] = Relationship(
+        link_model=PrescriptionsMedicationDosage, 
+        sa_relationship_kwargs={"overlaps":"dosages,prescription"}
+    )
     doctor : "Doctor" = Relationship(back_populates="prescriptions")
     patient : "Patient" = Relationship(back_populates="prescriptions")
-    warnings: list[str] = []
+    # warnings: list[str] = []
 
 class PrescriptionRead(PrescriptionBase):
     id: int
@@ -48,4 +51,4 @@ class PrescriptionReadFullData(PrescriptionRead):
     dosages : list[PrescriptionsMedicationDosageRead] = []
     doctor: "DoctorRead"
     patient : "PatientRead"
-    warnings: list[str] = []
+    # warnings: list[str] = []

@@ -1,4 +1,5 @@
 #!/bin/env python3
+from typing import cast
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session #, select
@@ -16,18 +17,24 @@ from poppy_s.lib.models import (
     PrescriptionsMedicationDosage,
     PrescriptionsMedicationDosageBaseWithMedicationID,
     Medication,
-    MedicationRead,
-    Interaction
+    MedicationRead
+    # ,
+    # Interaction,
+    # PrescriptionValidationErrorsBase
 )
 
 from poppy_s.lib.helpers.plugin_helpers.medications import find_medication_by_name
 
-from poppy_s.lib.helpers.plugin_helpers.interactions import (
-    find_interactions_by_rxcui, 
-    compile_interactions_warnings
+# from poppy_s.lib.helpers.plugin_helpers.interactions import (
+#     find_interactions_by_rxcui, 
+#     # compile_interactions_warnings 
+# )
+from poppy_s.lib.helpers.plugin_helpers.validators import (
+    compile_validator_s_warnings,
+    validate_prescription
 )
 
-from poppy_s.api.v1.helper_generator import genRouter
+from poppy_s.lib.helpers.routes_helpers.helper_generator import genRouter
 
 def getRouter() -> APIRouter:
 
@@ -45,7 +52,42 @@ def getRouter() -> APIRouter:
         limit: int = Query(default=100, lte=500),
         loadmore: bool = Query(default=False)
     ):
+        """
+        addMedicationToPrescription _summary_
 
+        Parameters
+        ----------
+        item_id : int
+            The Prescription ID, REQUIRED!
+            This id and the `prescription_id` of `medication_dosage` MUST match!
+            A Prescription of this ID MUST Exist in the DB!
+        medication_dosage : PrescriptionsMedicationDosageCreate
+            The Medication and it's Dosage to add to the Prescription
+        session : Session, optional
+            The Database Session, provided by FastAPI's Depends, by default Depends(database.get_session)
+        limit : int, optional
+            The maximum number of Medications to load from the remote DB, 
+            by default 100, must be less than or equal to 500.
+        loadmore : bool, optional
+            whether to loadMore than is already loaded in our DB, 
+            by default False
+
+        Returns
+        -------
+        PrescriptionReadFullData
+            The Updated info of the Prescription.
+
+        Raises
+        ------
+        HTTPException
+            _description_
+        HTTPException
+            _description_
+        HTTPException
+            _description_
+        HTTPException
+            _description_
+        """        
         if item_id != medication_dosage.prescription_id:
             raise HTTPException(status_code=400, detail=f"Bad user input")
 
@@ -82,7 +124,7 @@ def getRouter() -> APIRouter:
         return prescription
 
     @router.post("/{item_id}/close", response_model=PrescriptionReadFullData)
-    async def closeMedicationToPrescription(
+    async def sealPrescription(
         *, 
         session: Session = Depends(database.get_session), 
         item_id: int,
@@ -96,15 +138,30 @@ def getRouter() -> APIRouter:
         elif prescription.sealed_at is not None:
             raise HTTPException(status_code=400, detail=f"Prescription Already Sealed!")
 
-        interactions : list[Interaction] = find_interactions_by_rxcui(
+        validation_errors = validate_prescription(
             session, 
-            medications=prescription.medications,
+            prescription=prescription,
             loadMore=loadmore
         )
 
-        warnings = compile_interactions_warnings(interactions, asList=True)
 
-        prescription.warnings.extend(warnings)
+        if len(validation_errors) > 0:
+            # prescription.warnings.extend(warnings)
+
+            # session.add(prescription)
+            # session.commit()
+
+
+            warnings = compile_validator_s_warnings(
+                validation_errors,  
+                asList=False
+            )
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Unable to Seal Prescription with Warnings!\nWarnings:\n{warnings}"
+            )
+
+        
         prescription.sealed_at = datetime.now(timezone.utc)
 
         session.add(prescription)

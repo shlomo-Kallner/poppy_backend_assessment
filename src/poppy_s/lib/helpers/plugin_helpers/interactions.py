@@ -4,6 +4,8 @@ from sqlmodel import Session, select, col, and_ #, tuple_, exists, SQLModel
 
 from poppy_s.lib.models import Medication, Interaction, InteractionCreate, InteractionMedicationLink
 from poppy_s.lib.container import globalContainer
+from poppy_s.lib.helpers.plugin_helpers.exception import check_if_plugins_loaded
+from poppy_s.lib.helpers.plugin_helpers.utils import pmTypeHelper
 
 
 
@@ -136,10 +138,12 @@ def find_interactions_by_rxcui(session: Session, medications: list[Medication], 
 
         # then check the API
 
-        if globalContainer.plugins is None:
-            raise RuntimeError("the plugins have not been loaded and stored in the globalContainer!")
+        ## check if the plugins are Loaded
+        check_if_plugins_loaded()
 
-        fetch_results : list[InteractionCreate] = globalContainer.plugins.hook.search_medication_interactions_by_rxcui(
+        fetch_results : list[InteractionCreate] = pmTypeHelper(
+            globalContainer.plugins
+        ).hook.search_medication_interactions_by_rxcui(
             medications=medications
         )
 
@@ -177,9 +181,9 @@ def find_interactions_by_rxcui(session: Session, medications: list[Medication], 
 
 
 
-def compile_interactions_warnings(interactions: list[Interaction], asList: bool = True, sep: str = '\n') -> list[str] | str:
-    res : list[str] = [
-        inter_.warning for inter_ in interactions
-    ]
+# def compile_interactions_warnings(interactions: list[Interaction], asList: bool = True, sep: str = '\n') -> list[str] | str:
+#     res : list[str] = [
+#         inter_.warning for inter_ in interactions
+#     ]
 
-    return res if asList else sep.join(res)
+#     return res if asList else sep.join(res)

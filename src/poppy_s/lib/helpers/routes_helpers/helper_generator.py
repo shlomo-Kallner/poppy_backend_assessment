@@ -20,7 +20,16 @@ def genRouter(
     create_model: Optional[Type[_T_SQLModel]] = None,
 ) -> APIRouter:
 
-    router = APIRouter(prefix=f"/{prefix_singular}", tags=["api", "api/v1", f"api/v1/{prefix_singular}", f"{prefix_plural}"])
+    router = APIRouter(
+        prefix=f"/{prefix_singular}", 
+        tags=[
+            "api", 
+            "api/v1", 
+            # # f"api/v1/{prefix_singular}", 
+            # f"v1/{prefix_singular}", 
+            f"{prefix_plural}"
+        ]
+    )
 
     @router.get("/", response_model=List[response_model])
     async def getItems(

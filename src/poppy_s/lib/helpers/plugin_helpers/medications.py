@@ -4,6 +4,8 @@ from sqlmodel import Session, select, col #, exists, SQLModel
 
 from poppy_s.lib.models import MedicationCreate, Medication
 from poppy_s.lib.container import globalContainer
+from poppy_s.lib.helpers.plugin_helpers.exception import check_if_plugins_loaded
+from poppy_s.lib.helpers.plugin_helpers.utils import pmTypeHelper
 
 
 def find_medication_by_name(session: Session, name: str, num: int = 100, loadMore: bool = False) -> list[Medication]:
@@ -25,10 +27,11 @@ def find_medication_by_name(session: Session, name: str, num: int = 100, loadMor
 
         # then check the API
 
-        if globalContainer.plugins is None:
-            raise RuntimeError("the plugins have not been loaded and stored in the globalContainer!")
+        check_if_plugins_loaded()
 
-        fetch_results : list[MedicationCreate] = globalContainer.plugins.hook.search_medication_by_name(
+        fetch_results : list[MedicationCreate] = pmTypeHelper(
+            globalContainer.plugins
+        ).hook.search_medication_by_name(
             name=name, num=num
         )
 
